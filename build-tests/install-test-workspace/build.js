@@ -124,7 +124,8 @@ const pnpmInstallArgs = [
   '--link-workspace-packages',
   'false',
   '--frozen-lockfile',
-  productionMode ? 'true' : 'false'
+  // productionMode ? 'true' : 'false'
+  'false'
 ];
 
 console.log('\nInstalling:');
