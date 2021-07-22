@@ -138,6 +138,7 @@ export class ProjectBuilder extends BaseBuilder {
     return projectBuildCache?.trySetCacheEntryAsync(terminal);
   }
 
+  // Ethan look here
   private async _executeTaskAsync(context: IBuilderContext): Promise<TaskStatus> {
     // TERMINAL PIPELINE:
     //
@@ -170,6 +171,10 @@ export class ProjectBuilder extends BaseBuilder {
       const quietModeTransform: DiscardStdoutTransform = new DiscardStdoutTransform({
         destination: context.collatedWriter
       });
+      //ethan here
+      const debugModeTransform: DiscardStdoutTransform = new DiscardStdoutTransform({
+        destination: context.collatedWriter
+      });
 
       const splitterTransform1: SplitterTransform = new SplitterTransform({
         destinations: [context.quietMode ? quietModeTransform : context.collatedWriter, stderrLineTransform]
@@ -184,6 +189,8 @@ export class ProjectBuilder extends BaseBuilder {
       const collatedTerminal: CollatedTerminal = new CollatedTerminal(normalizeNewlineTransform);
       const terminalProvider: CollatedTerminalProvider = new CollatedTerminalProvider(collatedTerminal);
       const terminal: Terminal = new Terminal(terminalProvider);
+      const debugTerminal: Terminal = new Terminal(terminalProvider);
+      // ethan here
 
       let hasWarningOrError: boolean = false;
       const projectFolder: string = this._rushProject.projectFolder;

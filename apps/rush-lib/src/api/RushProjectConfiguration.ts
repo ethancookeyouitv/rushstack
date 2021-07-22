@@ -175,6 +175,7 @@ export class RushProjectConfiguration {
    * Loads the rush-project.json data for the specified project.
    */
   public static async tryLoadForProjectAsync(
+    //ethan
     project: RushConfigurationProject,
     repoCommandLineConfiguration: CommandLineConfiguration | undefined,
     terminal: Terminal
@@ -185,7 +186,7 @@ export class RushProjectConfiguration {
 
     const rushProjectJson: IRushProjectJson | undefined =
       await this._projectBuildCacheConfigurationFile.tryLoadConfigurationFileForProjectAsync(
-        terminal,
+        terminal, // Ethan look here
         project.projectFolder,
         rigConfig
       );
