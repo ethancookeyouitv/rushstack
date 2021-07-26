@@ -168,16 +168,17 @@ export class ProjectBuilder extends BaseBuilder {
         newlineKind: NewlineKind.Lf // for StdioSummarizer
       });
 
-      const quietModeTransform: DiscardStdoutTransform = new DiscardStdoutTransform({
+      const quietDebugModeTransform: DiscardStdoutTransform = new DiscardStdoutTransform({
         destination: context.collatedWriter
       });
-      //ethan here
-      const debugModeTransform: DiscardStdoutTransform = new DiscardStdoutTransform({
-        destination: context.collatedWriter
-      });
+      console.log('Ethan isDebug: ' + context.isDebug);
+      console.log('Ethan quietMode: ' + context.quietMode);
 
       const splitterTransform1: SplitterTransform = new SplitterTransform({
-        destinations: [context.quietMode ? quietModeTransform : context.collatedWriter, stderrLineTransform]
+        destinations: [
+          context.quietMode || !context.isDebug ? quietDebugModeTransform : context.collatedWriter,
+          stderrLineTransform
+        ]
       });
 
       const normalizeNewlineTransform: TextRewriterTransform = new TextRewriterTransform({
@@ -189,8 +190,6 @@ export class ProjectBuilder extends BaseBuilder {
       const collatedTerminal: CollatedTerminal = new CollatedTerminal(normalizeNewlineTransform);
       const terminalProvider: CollatedTerminalProvider = new CollatedTerminalProvider(collatedTerminal);
       const terminal: Terminal = new Terminal(terminalProvider);
-      const debugTerminal: Terminal = new Terminal(terminalProvider);
-      // ethan here
 
       let hasWarningOrError: boolean = false;
       const projectFolder: string = this._rushProject.projectFolder;
